@@ -16,6 +16,14 @@ const useStyles = makeStyles({
   },
 });
 
+const timeFormatter = () => {
+  const date = new Date().toISOString().split('T')
+  const time = date[1].slice(0, -1)
+  return `${date[0]} ${time}`
+}
+
+timeFormatter()
+
 function createData(ID, CreationTime, ChangeTime, Status, Side, Price, Amount, Instrument) {
   return { ID, CreationTime, ChangeTime, Status, Side, Price, Amount, Instrument };
 }
@@ -23,8 +31,8 @@ function createData(ID, CreationTime, ChangeTime, Status, Side, Price, Amount, I
 const rows = [
   createData(
     1,
-    Date.now(),
-    Date.now(),
+    timeFormatter(),
+    timeFormatter(),
     'Active',
     'Buy',
     8,
@@ -33,9 +41,9 @@ const rows = [
   ),
   createData(
     2,
-    Date.now(),
-    Date.now(),
-    'Active',
+    timeFormatter(),
+    timeFormatter(),
+    'Rejected',
     'Sell',
     8.1144,
     111222,
@@ -59,7 +67,7 @@ export default function DenseTable() {
 
   return (
     <TableContainer component={Paper} className={classes.table}>
-      <Table size="medium" aria-label="a dense table">
+      <Table size="small" aria-label="a dense table">
         <TableHead>
           <TableRow style={{ border: 'black', borderStyle: 'solid' }}>
             {titles.map(title => (
