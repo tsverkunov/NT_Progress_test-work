@@ -16,63 +16,17 @@ const useStyles = makeStyles({
   },
 });
 
-const timeFormatter = () => {
-  const date = new Date().toISOString().split('T')
-  const time = date[1].slice(0, -1)
-  return `${date[0]} ${time}`
-}
-
-timeFormatter()
-
-function createData(ID, CreationTime, ChangeTime, Status, Side, Price, Amount, Instrument) {
-  return { ID, CreationTime, ChangeTime, Status, Side, Price, Amount, Instrument };
-}
-
-const rows = [
-  createData(
-    1,
-    timeFormatter(),
-    timeFormatter(),
-    'Active',
-    'Buy',
-    8,
-    111,
-    'CNH/RUB',
-  ),
-  createData(
-    2,
-    timeFormatter(),
-    timeFormatter(),
-    'Rejected',
-    'Sell',
-    8.1144,
-    111222,
-    'CNH/RUB',
-  ),
-];
-
-const titles = [
-  'ID',
-  'Creation time',
-  'Change time',
-  'Status',
-  'Side',
-  'Price',
-  'Amount',
-  'Instrument',
-];
-
-export default function DenseTable() {
+export default function DenseTable({ rows, titles }) {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper} className={classes.table}>
+    <TableContainer component={Paper} className={classes.table} style={{marginBottom: 50}}>
       <Table size="small" aria-label="a dense table">
         <TableHead>
           <TableRow style={{ border: 'black', borderStyle: 'solid' }}>
-            {titles.map(title => (
+            {titles.map((title, index) => (
               <TableCell
-                // key={title}
+                key={index}
                 style={{ border: 'black', borderStyle: 'solid' }}
                 sx={{ fontWeight: 'bold' }}
                 align="center"
@@ -82,12 +36,13 @@ export default function DenseTable() {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
+        <TableBody style={{textAlign: 'center'}}>
+          {!rows.length
+            ? null
+            : rows.map((row) => (
             <TableRow style={{ border: 'black', borderStyle: 'solid', fontWeight: 'bold' }} key={row.ID}
                       color={green[50]}>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
@@ -95,7 +50,6 @@ export default function DenseTable() {
                 {row.ID}
               </TableCell>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
@@ -103,7 +57,6 @@ export default function DenseTable() {
                 {row.CreationTime}
               </TableCell>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
@@ -111,7 +64,6 @@ export default function DenseTable() {
                 {row.ChangeTime}
               </TableCell>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
@@ -119,7 +71,6 @@ export default function DenseTable() {
                 {row.Status}
               </TableCell>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
@@ -129,7 +80,6 @@ export default function DenseTable() {
                 </Box>
               </TableCell>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
@@ -141,17 +91,15 @@ export default function DenseTable() {
                 }
               </TableCell>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
               >
-                <Box sx={row.Side === 'Buy' ? { color: green[500] } : { color: red[500]}}>
+                <Box sx={row.Side === 'Buy' ? { color: green[500] } : { color: red[500] }}>
                   {row.Amount}
                 </Box>
               </TableCell>
               <TableCell
-                // key={row.ID}
                 component="th" scope="row"
                 style={{ borderStyle: 'solid' }}
                 align="center"
