@@ -1,47 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Ticker.scss';
+import { ws } from '../../ utils/WSConnector';
 
-const Ticker = ({ rows, createData, timeFormatter, setRows }) => {
+const Ticker = ({ rows, timeFormatter, setRows, purchasePrice, sellingPrice }) => {
   const [instrument, setInstrument] = useState('USD/RUB');
   const [amount, setAmount] = useState(1000);
-  const [purchasePrice, setPurchasePrice] = useState(1);
-  const [sellingPrice, setSellingPrice] = useState(2);
+
+  useEffect(() => {
+    if(ws.connection) {
+      ws.unsubscribeMarketData('subscriptionId')
+      ws.subscribeMarketData(instrument)
+    }
+  },[instrument])
 
   const handleChangeInstrument = (e) => {
     setInstrument(e.target.value);
   };
   const handleChangeAmount = (e) => {
-    setAmount(e.target.value);
+    setAmount(Number(e.target.value));
   };
+
+  const createData = (ID, CreationTime, ChangeTime, Status, Side, Price, Amount, Instrument) => {
+    return { ID, CreationTime, ChangeTime, Status, Side, Price, Amount, Instrument };
+  };
+
+  const createOrder = (side, price,) => {
+    return createData(
+      rows.length++,
+      timeFormatter(),
+      timeFormatter(),
+      'Active',
+      side,
+      (Number(price).toFixed(3)),
+      (Number(amount).toFixed(2)),
+      instrument,
+    )
+  }
+
   const handleBuy = (e) => {
     e.preventDefault();
+    ws.placeOrder(instrument, purchasePrice, amount, 'Buy')
+
     setRows([
       ...rows,
-      createData(
-        rows.length++,
-        timeFormatter(),
-        timeFormatter(),
-        'Rejected',
-        'Buy',
-        (Number(purchasePrice)).toFixed(4),
-        (Number(amount)).toFixed(2),
-        instrument,
-      )]);
+      createOrder('Buy', purchasePrice)
+    ]);
   };
+
   const handleCell = (e) => {
     e.preventDefault();
+    ws.placeOrder(instrument, sellingPrice, amount, 'Sell')
+
     setRows([
       ...rows,
-      createData(
-        rows.length++,
-        timeFormatter(),
-        timeFormatter(),
-        'Active',
-        'Cell',
-        (Number(purchasePrice)).toFixed(4),
-        (Number(amount)).toFixed(1),
-        instrument,
-      )]);
+      createOrder('Sell', sellingPrice)
+    ]);
   };
 
   return (

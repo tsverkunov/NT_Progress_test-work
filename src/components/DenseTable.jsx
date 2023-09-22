@@ -12,7 +12,7 @@ import { Box } from '@mui/material';
 
 const useStyles = makeStyles({
   table: {
-    maxWidth: 850,
+    maxWidth: 850
   },
 });
 
@@ -20,7 +20,10 @@ export default function DenseTable({ rows, titles }) {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper} className={classes.table} style={{marginBottom: 50}}>
+    // !rows
+    //   ? null
+    //   :
+    <TableContainer component={Paper} className={classes.table} style={{ marginBottom: 50 }}>
       <Table size="small" aria-label="a dense table">
         <TableHead>
           <TableRow style={{ border: 'black', borderStyle: 'solid' }}>
@@ -36,78 +39,84 @@ export default function DenseTable({ rows, titles }) {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody style={{textAlign: 'center'}}>
+        <TableBody style={{ textAlign: 'center' }}>
           {!rows.length
-            ? null
+            ? <p>Загрузка...</p>
             : rows.map((row) => (
-            <TableRow style={{ border: 'black', borderStyle: 'solid', fontWeight: 'bold' }} key={row.ID}
-                      color={green[50]}>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                {row.ID}
-              </TableCell>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                {row.CreationTime}
-              </TableCell>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                {row.ChangeTime}
-              </TableCell>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                {row.Status}
-              </TableCell>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                <Box sx={row.Side === 'Buy' ? { color: green[500] } : { color: red[500] }}>
-                  {row.Side}
-                </Box>
-              </TableCell>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                {
+              <TableRow
+                style={{
+                  border: 'black',
+                  borderStyle: 'solid',
+                  fontWeight: 'bold',
+                }}
+                key={row.ID}
+                color={green[50]}>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
+                  {row.ID}
+                </TableCell>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
+                  {row.CreationTime}
+                </TableCell>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
+                  {row.ChangeTime}
+                </TableCell>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
+                  {row.Status}
+                </TableCell>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
                   <Box sx={row.Side === 'Buy' ? { color: green[500] } : { color: red[500] }}>
-                    {row.Price}
+                    {row.Side}
                   </Box>
-                }
-              </TableCell>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                <Box sx={row.Side === 'Buy' ? { color: green[500] } : { color: red[500] }}>
-                  {row.Amount}
-                </Box>
-              </TableCell>
-              <TableCell
-                component="th" scope="row"
-                style={{ borderStyle: 'solid' }}
-                align="center"
-              >
-                {row.Instrument}
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
+                  {
+                    <Box sx={row.Side === 'Buy' ? { color: green[500] } : { color: red[500] }}>
+                      {row.Price}
+                    </Box>
+                  }
+                </TableCell>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
+                  <Box sx={row.Side === 'Buy' ? { color: green[500] } : { color: red[500] }}>
+                    {row.Amount}
+                  </Box>
+                </TableCell>
+                <TableCell
+                  component="th" scope="row"
+                  style={{ borderStyle: 'solid' }}
+                  align="center"
+                >
+                  {row.Instrument}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
