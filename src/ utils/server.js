@@ -51,7 +51,7 @@ let fakeDB = {
 // };
 
 export const startServer = () => {
-  const server = new Server('ws://localhost:3030');
+  const server = new Server('ws://localhost:3003');
   server.on('connection', socket => {
     console.log('ПОДКЛЮЧЕНИЕ УСТАНОВЛЕНО');
 
